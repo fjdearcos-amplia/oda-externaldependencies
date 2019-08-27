@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>es.amplia.oda</groupId>
+    <artifactId>oda-externaldependencies</artifactId>
+    <version>3.25.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>OpenGate Device Agent External Dependencies</name>
+    <url>https://github.com/amplia-iiot/oda-externaldependencies</url>
+    <inceptionYear>2019</inceptionYear>
+    <description>OpenGate Device Agent external dependencies</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+    </modules>
+
+    <scm>
+        <connection>scm:git:http://github.com/amplia-iiot/oda-externaldependencies.git</connection>
+        <url>scm:git:http://github.com/amplia-iiot/oda-externaldependencies.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>amplia-snapshots</id>
+            <name>Amplia Snapshots Repository</name>
+            <url>http://repository.amplia.es:8081/nexus/content/repositories/amplia-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>amplia-releases</id>
+            <name>Amplia Release Repository</name>
+            <url>http://repository.amplia.es:8081/nexus/content/repositories/amplia-releases/</url>
+        </repository>
+    </distributionManagement>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${apache.felix.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven.assembly.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
+</project>
