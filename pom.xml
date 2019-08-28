@@ -25,6 +25,7 @@
 
     <modules>
         <module>deviceio-crosscompilation</module>
+        <module>opendnp3-crosscompilation</module>
     </modules>
 
     <build>
