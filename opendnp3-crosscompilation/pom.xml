@@ -124,11 +124,111 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Install artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-file-libopendnp3java-${arch}</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>target/lib/libopendnp3java.so</file>
+                            <generatePom>false</generatePom>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>libopendnp3java</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-libasiodnp3-${arch}</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>target/lib/libasiodnp3.so</file>
+                            <generatePom>false</generatePom>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>libasiodnp3</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-libasiopal-${arch}</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>target/lib/libasiopal.so</file>
+                            <generatePom>false</generatePom>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>libasiopal</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-libopendnp3-${arch}</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>target/lib/libopendnp3.so</file>
+                            <generatePom>false</generatePom>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>libopendnp3</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-libopenpal-${arch}</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>target/lib/libopenpal.so</file>
+                            <generatePom>false</generatePom>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>libopenpal</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-opendnp3bindings</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/java/bindings/target/opendnp3-bindings-${opendnp3.version}.jar</file>
+                            <groupId>com.automatak.dnp3</groupId>
+                            <artifactId>opendnp3-bindings</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Deploy artifacts -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>deploy-file-libopendnp3java-${arch}</id>
@@ -161,7 +261,7 @@
                             <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiodnp3</artifactId>
-                            <version>${opendnp3deployedversion}</version>
+                            <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>${arch}</classifier>
                         </configuration>
@@ -179,7 +279,7 @@
                             <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiopal</artifactId>
-                            <version>${opendnp3deployedversion}</version>
+                            <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>${arch}</classifier>
                         </configuration>
@@ -197,7 +297,7 @@
                             <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopendnp3</artifactId>
-                            <version>${opendnp3deployedversion}</version>
+                            <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>${arch}</classifier>
                         </configuration>
@@ -215,7 +315,7 @@
                             <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopenpal</artifactId>
-                            <version>${opendnp3deployedversion}</version>
+                            <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>${arch}</classifier>
                         </configuration>
@@ -232,7 +332,7 @@
                             <url>${targetrepositoryUrl}</url>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>opendnp3-bindings</artifactId>
-                            <version>${opendnp3deployedversion}</version>
+                            <version>${project.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>

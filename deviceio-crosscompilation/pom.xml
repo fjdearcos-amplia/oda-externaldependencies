@@ -85,6 +85,42 @@
                     <workingDirectory>${project.build.directory}/checkout</workingDirectory>
                 </configuration>
             </plugin>
+            <!-- Install artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-file-libdio</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/so/libdio.so</file>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>libdio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-dio</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/jar/dio.jar</file>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>dio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Deploy artifacts -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
