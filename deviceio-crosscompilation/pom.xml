@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>deviceio.wrapper</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>es.amplia.oda</groupId>
+        <artifactId>oda-externaldependencies</artifactId>
+        <version>3.25.1-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <scm.revision.dio>261</scm.revision.dio>
+        <scm.repository.dio>dev</scm.repository.dio>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Detect version type -->
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>choose-target-repository</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                if (project.version.endsWith("-SNAPSHOT")) {
+                                  project.properties.targetrepositoryId = project.distributionManagement.snapshotRepository.id
+                                  project.properties.targetrepositoryUrl = project.distributionManagement.snapshotRepository.url
+                                } else {
+                                  project.properties.targetrepositoryId = project.distributionManagement.repository.id
+                                  project.properties.targetrepositoryUrl = project.distributionManagement.repository.url
+                                }
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Clone OpenJDK Device I/O repository -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <configuration>
+                    <connectionUrl>scm:hg:http://hg.openjdk.java.net/dio/${scm.repository.dio}</connectionUrl>
+                    <scmVersion>${scm.revision.dio}</scmVersion>
+                    <scmVersionType>revision</scmVersionType>
+                    <skipCheckoutIfExists>true</skipCheckoutIfExists>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clone</id>
+                        <goals>
+                            <goal>checkout</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Build lib -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <environmentVariables>
+                        <CROSS_TOOL>${toolchain}</CROSS_TOOL>
+                    </environmentVariables>
+                    <executable>make</executable>
+                    <workingDirectory>${project.build.directory}/checkout</workingDirectory>
+                </configuration>
+            </plugin>
+            <!-- Install artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-file-libdio</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/so/libdio.so</file>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>libdio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-file-dio</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/jar/dio.jar</file>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>dio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Deploy artifacts -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>deploy-file-libdio</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/so/libdio.so</file>
+                            <repositoryId>${targetrepositoryId}</repositoryId>
+                            <url>${targetrepositoryUrl}</url>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>libdio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>so</packaging>
+                            <classifier>${arch}</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>deploy-file-dio</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/checkout/build/jar/dio.jar</file>
+                            <repositoryId>${targetrepositoryId}</repositoryId>
+                            <url>${targetrepositoryUrl}</url>
+                            <groupId>net.java.openjdk</groupId>
+                            <artifactId>dio</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
