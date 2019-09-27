@@ -4,7 +4,7 @@
 
     <groupId>es.amplia.oda</groupId>
     <artifactId>oda-externaldependencies</artifactId>
-    <version>3.25.1</version>
+    <version>3.25.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OpenGate Device Agent External Dependencies</name>
@@ -60,42 +60,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <id>linux</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                    <arch>amd64</arch>
-                </os>
-            </activation>
-            <properties>
-                <toolchain>/usr/bin/</toolchain>
-                <arch>x86_64</arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>raspberry.pi</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                    <arch>arm</arch>
-                </os>
-            </activation>
-            <properties>
-                <toolchain>/usr/bin/</toolchain>
-                <arch>arm</arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>fx30</id>
-            <properties>
-                <toolchain>/opt/swi/y17-ext/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-</toolchain>
-                <arch>arm</arch>
-            </properties>
-        </profile>
-    </profiles>
 
     <scm>
         <connection>scm:git:http://github.com/amplia-iiot/oda-externaldependencies.git</connection>

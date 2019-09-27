@@ -3,22 +3,240 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>opendnp3.wrapper</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>es.amplia.oda</groupId>
         <artifactId>oda-externaldependencies</artifactId>
-        <version>3.25.1</version>
+        <version>3.25.1-SNAPSHOT</version>
     </parent>
 
     <properties>
         <opendnp3.version>2.2.0</opendnp3.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>fx30</id>
+            <activation>
+                <file>
+                    <exists>${user.home}/legato</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>${exec-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>build-native-arm</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>
+                                        <argument>--arch</argument>
+                                        <argument>arm</argument>
+                                    </arguments>
+                                    <executable>./make.sh</executable>
+                                    <workingDirectory>src/main/script</workingDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-file-libopendnp3java-arm</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopendnp3java.so</file>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopendnp3java</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-file-libasiodnp3-arm</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libasiodnp3.so</file>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libasiodnp3</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-file-libasiopal-arm</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libasiopal.so</file>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libasiopal</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-file-libopendnp3-arm</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopendnp3.so</file>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopendnp3</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-file-libopenpal-arm</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopenpal.so</file>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopenpal</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-file-libopendnp3java-arm</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopendnp3java.so</file>
+                                    <repositoryId>${targetrepositoryId}</repositoryId>
+                                    <url>${targetrepositoryUrl}</url>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopendnp3java</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy-file-libasiodnp3-arm</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libasiodnp3.so</file>
+                                    <repositoryId>${targetrepositoryId}</repositoryId>
+                                    <url>${targetrepositoryUrl}</url>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libasiodnp3</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy-file-libasiopal-arm</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libasiopal.so</file>
+                                    <repositoryId>${targetrepositoryId}</repositoryId>
+                                    <url>${targetrepositoryUrl}</url>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libasiopal</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy-file-libopendnp3-arm</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopendnp3.so</file>
+                                    <repositoryId>${targetrepositoryId}</repositoryId>
+                                    <url>${targetrepositoryUrl}</url>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopendnp3</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy-file-libopenpal-arm</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>target/lib/libopenpal.so</file>
+                                    <repositoryId>${targetrepositoryId}</repositoryId>
+                                    <url>${targetrepositoryUrl}</url>
+                                    <groupId>com.automatak.dnp3</groupId>
+                                    <artifactId>libopenpal</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>so</packaging>
+                                    <classifier>arm</classifier>
+                                    <generatePom>false</generatePom>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
-            <!-- Detect version type -->
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
@@ -65,13 +283,11 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Build project -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${exec-maven-plugin.version}</version>
                 <executions>
-                    <!-- Init git submodules -->
                     <execution>
                         <id>init-git-submodules</id>
                         <phase>generate-sources</phase>
@@ -89,9 +305,8 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- Build native libraries for the desired processor architecture -->
                     <execution>
-                        <id>build-native</id>
+                        <id>build-native-linux</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>exec</goal>
@@ -99,13 +314,12 @@
                         <configuration>
                             <arguments>
                                 <argument>--arch</argument>
-                                <argument>${arch}</argument>
+                                <argument>x86_64</argument>
                             </arguments>
                             <executable>./make.sh</executable>
                             <workingDirectory>src/main/script</workingDirectory>
                         </configuration>
                     </execution>
-                    <!-- Build Java artifacts -->
                     <execution>
                         <id>build-java</id>
                         <phase>compile</phase>
@@ -124,89 +338,83 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Install artifacts -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>install-file-libopendnp3java-${arch}</id>
+                        <id>install-file-libopendnp3java-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
                             <file>target/lib/libopendnp3java.so</file>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopendnp3java</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>install-file-libasiodnp3-${arch}</id>
+                        <id>install-file-libasiodnp3-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
                             <file>target/lib/libasiodnp3.so</file>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiodnp3</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>install-file-libasiopal-${arch}</id>
+                        <id>install-file-libasiopal-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
                             <file>target/lib/libasiopal.so</file>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiopal</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>install-file-libopendnp3-${arch}</id>
+                        <id>install-file-libopendnp3-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
                             <file>target/lib/libopendnp3.so</file>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopendnp3</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>install-file-libopenpal-${arch}</id>
+                        <id>install-file-libopenpal-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
                             <file>target/lib/libopenpal.so</file>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopenpal</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
@@ -225,13 +433,12 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Deploy artifacts -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>deploy-file-libopendnp3java-${arch}</id>
+                        <id>deploy-file-libopendnp3java-linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
@@ -240,16 +447,15 @@
                             <file>target/lib/libopendnp3java.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopendnp3java</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>deploy-file-libasiodnp3-${arch}</id>
+                        <id>deploy-file-libasiodnp3-$linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
@@ -258,16 +464,15 @@
                             <file>target/lib/libasiodnp3.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiodnp3</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>deploy-file-libasiopal-${arch}</id>
+                        <id>deploy-file-libasiopal-linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
@@ -276,16 +481,15 @@
                             <file>target/lib/libasiopal.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libasiopal</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>deploy-file-libopendnp3-${arch}</id>
+                        <id>deploy-file-libopendnp3-linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
@@ -294,16 +498,15 @@
                             <file>target/lib/libopendnp3.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopendnp3</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>deploy-file-libopenpal-${arch}</id>
+                        <id>deploy-file-libopenpal-linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
@@ -312,12 +515,11 @@
                             <file>target/lib/libopenpal.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <generatePom>false</generatePom>
                             <groupId>com.automatak.dnp3</groupId>
                             <artifactId>libopenpal</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
-                            <classifier>${arch}</classifier>
+                            <classifier>x86_64</classifier>
                         </configuration>
                     </execution>
                     <execution>
