@@ -27,6 +27,7 @@
     <modules>
         <module>deviceio-crosscompilation</module>
         <module>opendnp3-crosscompilation</module>
+        <module>diozero-crosscompilation</module>
     </modules>
 
     <build>
@@ -64,7 +65,7 @@
     <scm>
         <connection>scm:git:http://github.com/amplia-iiot/oda-externaldependencies.git</connection>
         <url>scm:git:http://github.com/amplia-iiot/oda-externaldependencies.git</url>
-        <tag>oda-externaldependencies-3.25.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>

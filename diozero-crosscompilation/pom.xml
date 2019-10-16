@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>deviceio.wrapper</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <artifactId>diozero.wrapper</artifactId>
+    <version>0.11-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -11,11 +13,6 @@
         <artifactId>oda-externaldependencies</artifactId>
         <version>3.25.2-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <scm.revision.dio>261</scm.revision.dio>
-        <scm.repository.dio>dev</scm.repository.dio>
-    </properties>
 
     <profiles>
         <profile>
@@ -38,9 +35,9 @@
                                 </goals>
                                 <phase>generate-sources</phase>
                                 <configuration>
-                                    <connectionUrl>scm:hg:http://hg.openjdk.java.net/dio/${scm.repository.dio}</connectionUrl>
-                                    <scmVersion>${scm.revision.dio}</scmVersion>
-                                    <scmVersionType>revision</scmVersionType>
+                                    <connectionUrl>scm:git:git@github.com:amplia-iiot/diozero.git</connectionUrl>
+                                    <scmVersion>master</scmVersion>
+                                    <scmVersionType>branch</scmVersionType>
                                     <skipCheckoutIfExists>true</skipCheckoutIfExists>
                                     <checkoutDirectory>${project.build.directory}/checkout-arm</checkoutDirectory>
                                 </configuration>
@@ -60,9 +57,10 @@
                                 <configuration>
                                     <environmentVariables>
                                         <CROSS_TOOL>/opt/swi/y17-ext/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-</CROSS_TOOL>
+                                        <CROSS_FLAGS>-DFX30</CROSS_FLAGS>
                                     </environmentVariables>
                                     <executable>make</executable>
-                                    <workingDirectory>${project.build.directory}/checkout-arm</workingDirectory>
+                                    <workingDirectory>${project.build.directory}/checkout-arm/system-utils-native/src/main/c</workingDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -72,15 +70,15 @@
                         <artifactId>maven-install-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>install-file-libdio-arm</id>
+                                <id>install-file-libdiozero-system-utils-arm</id>
                                 <phase>install</phase>
                                 <goals>
                                     <goal>install-file</goal>
                                 </goals>
                                 <configuration>
-                                    <file>${project.build.directory}/checkout-arm/build/so/libdio.so</file>
-                                    <groupId>net.java.openjdk</groupId>
-                                    <artifactId>libdio</artifactId>
+                                    <file>${project.build.directory}/checkout-arm/system-utils-native/src/main/c/libdiozero-system-utils.so</file>
+                                    <groupId>com.diozero</groupId>
+                                    <artifactId>libdiozero-system-utils</artifactId>
                                     <version>${project.version}</version>
                                     <packaging>so</packaging>
                                     <classifier>arm</classifier>
@@ -94,17 +92,17 @@
                         <artifactId>maven-deploy-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>deploy-file-libdio-arm</id>
+                                <id>deploy-file-libdiozero-system-utils-arm</id>
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>deploy-file</goal>
                                 </goals>
                                 <configuration>
-                                    <file>${project.build.directory}/checkout-arm/build/so/libdio.so</file>
+                                    <file>${project.build.directory}/checkout-arm/system-utils-native/src/main/c/libdiozero-system-utils.so</file>
                                     <repositoryId>${targetrepositoryId}</repositoryId>
                                     <url>${targetrepositoryUrl}</url>
-                                    <groupId>net.java.openjdk</groupId>
-                                    <artifactId>libdio</artifactId>
+                                    <groupId>com.diozero</groupId>
+                                    <artifactId>libdiozero-system-utils</artifactId>
                                     <version>${project.version}</version>
                                     <packaging>so</packaging>
                                     <classifier>arm</classifier>
@@ -133,11 +131,11 @@
                         <configuration>
                             <source>
                                 if (project.version.endsWith("-SNAPSHOT")) {
-                                  project.properties.targetrepositoryId = project.distributionManagement.snapshotRepository.id
-                                  project.properties.targetrepositoryUrl = project.distributionManagement.snapshotRepository.url
+                                    project.properties.targetrepositoryId = project.distributionManagement.snapshotRepository.id
+                                    project.properties.targetrepositoryUrl = project.distributionManagement.snapshotRepository.url
                                 } else {
-                                  project.properties.targetrepositoryId = project.distributionManagement.repository.id
-                                  project.properties.targetrepositoryUrl = project.distributionManagement.repository.url
+                                    project.properties.targetrepositoryId = project.distributionManagement.repository.id
+                                    project.properties.targetrepositoryUrl = project.distributionManagement.repository.url
                                 }
                             </source>
                         </configuration>
@@ -155,9 +153,9 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <connectionUrl>scm:hg:http://hg.openjdk.java.net/dio/${scm.repository.dio}</connectionUrl>
-                            <scmVersion>${scm.revision.dio}</scmVersion>
-                            <scmVersionType>revision</scmVersionType>
+                            <connectionUrl>scm:git:git@github.com:amplia-iiot/diozero.git</connectionUrl>
+                            <scmVersion>master</scmVersion>
+                            <scmVersionType>branch</scmVersionType>
                             <skipCheckoutIfExists>true</skipCheckoutIfExists>
                         </configuration>
                     </execution>
@@ -176,9 +174,10 @@
                         <configuration>
                             <environmentVariables>
                                 <CROSS_TOOL>/usr/bin/</CROSS_TOOL>
+                                <CROSS_FLAGS/>
                             </environmentVariables>
                             <executable>make</executable>
-                            <workingDirectory>${project.build.directory}/checkout</workingDirectory>
+                            <workingDirectory>${project.build.directory}/checkout/system-utils-native/src/main/c</workingDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -188,32 +187,18 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>install-file-libdio-linux</id>
+                        <id>install-file-libdiozero-system-utils-linux</id>
                         <phase>install</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${project.build.directory}/checkout/build/so/libdio.so</file>
-                            <groupId>net.java.openjdk</groupId>
-                            <artifactId>libdio</artifactId>
+                            <file>${project.build.directory}/checkout/system-utils-native/src/main/c/libdiozero-system-utils.so</file>
+                            <groupId>com.diozero</groupId>
+                            <artifactId>libdiozero-system-utils</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>x86_64</classifier>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>install-file-dio</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${project.build.directory}/checkout/build/jar/dio.jar</file>
-                            <groupId>net.java.openjdk</groupId>
-                            <artifactId>dio</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>jar</packaging>
                         </configuration>
                     </execution>
                 </executions>
@@ -223,36 +208,20 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>deploy-file-libdio-linux</id>
+                        <id>deploy-file-libdiozero-system-utils-linux</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy-file</goal>
                         </goals>
                         <configuration>
-                            <file>${project.build.directory}/checkout/build/so/libdio.so</file>
+                            <file>${project.build.directory}/checkout/system-utils-native/src/main/c/libdiozero-system-utils.so</file>
                             <repositoryId>${targetrepositoryId}</repositoryId>
                             <url>${targetrepositoryUrl}</url>
-                            <groupId>net.java.openjdk</groupId>
-                            <artifactId>libdio</artifactId>
+                            <groupId>com.diozero</groupId>
+                            <artifactId>libdiozero-system-utils</artifactId>
                             <version>${project.version}</version>
                             <packaging>so</packaging>
                             <classifier>x86_64</classifier>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>deploy-file-dio</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${project.build.directory}/checkout/build/jar/dio.jar</file>
-                            <repositoryId>${targetrepositoryId}</repositoryId>
-                            <url>${targetrepositoryUrl}</url>
-                            <groupId>net.java.openjdk</groupId>
-                            <artifactId>dio</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>jar</packaging>
                         </configuration>
                     </execution>
                 </executions>
