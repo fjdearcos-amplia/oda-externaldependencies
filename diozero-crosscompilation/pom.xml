@@ -33,7 +33,7 @@
                                 </goals>
                                 <phase>generate-sources</phase>
                                 <configuration>
-                                    <connectionUrl>scm:git:git@github.com:amplia-iiot/diozero.git</connectionUrl>
+                                    <connectionUrl>scm:git:http://github.com/amplia-iiot/diozero.git</connectionUrl>
                                     <scmVersion>master</scmVersion>
                                     <scmVersionType>branch</scmVersionType>
                                     <skipCheckoutIfExists>true</skipCheckoutIfExists>
@@ -151,7 +151,7 @@
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <connectionUrl>scm:git:git@github.com:amplia-iiot/diozero.git</connectionUrl>
+                            <connectionUrl>scm:git:http://github.com/amplia-iiot/diozero.git</connectionUrl>
                             <scmVersion>master</scmVersion>
                             <scmVersionType>branch</scmVersionType>
                             <skipCheckoutIfExists>true</skipCheckoutIfExists>
